@@ -1,10 +1,10 @@
 # cyber-platform
 
-The goal of this project is to build a MULTI-PROCESSES platform around dpdk.
+The goal of this project is to build a MULTI-PROCESS cyber-platform around intel dpdk.
 
-DPDK defines two types of processes: primary and secondary.
-  - Primary process must be unique in the Linux OS and have all the rights to build/use/remove the DPDK ressources (like pools, queues, rings, eth ports ect ...).
-  - Secondary process(es) can only use the ressources created by primary process.
+DPDK defines two types of process: primary and secondary.
+  - Primary process must be unique in the Linux host and have all the rights to build/use/remove the DPDK ressources (like pools, queues, rings, eth ports ect ...).
+  - Secondary process(es) can only use the ressources created by the primary process.
 
 The main vision is to make this platform "Lego based", since the modularity is the key of a good design.
 

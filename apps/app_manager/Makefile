@@ -27,12 +27,12 @@ CFLAGS += -g
 CFLAGS += $(WERROR_FLAGS)
 CFLAGS += -I$(RTE_SDK)/../common/
 CFLAGS += -I$(RTE_SDK)/../common/llist/
-CFLAGS += -I$(RTE_SDK)/../common/json-c-master/
+CFLAGS += -I$(RTE_SDK)/../common/json-c/
 
 LDLIBS += -L$(RTE_SDK)/../common/llist/build/lib/
 LDLIBS += -lllist
 
-LDLIBS += -L$(RTE_SDK)/../common/json-c-master/.libs/
+LDLIBS += -L$(RTE_SDK)/../common/json-c/.libs/
 LDLIBS += -ljson-c
 
 include $(RTE_SDK)/mk/rte.extapp.mk

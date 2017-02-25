@@ -13,7 +13,7 @@ RTE_TARGET ?= x86_64-native-linuxapp-gcc
 
 include $(RTE_SDK)/mk/rte.vars.mk
 
-DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./common/json-c-master
+DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./common/json-c
 DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./common/llist
 DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./apps/app_manager
 DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./apps/dispatcher

@@ -1,0 +1,46 @@
+{
+  "app": {
+    "name": "app_manager",
+    "core-mask": 7,
+    "memory-socket": 1,
+    
+    "ressources": {
+
+      "pktpools": [
+        {
+          "name": "mbufpool_port0",
+          "private_size": 0,
+          "data_room_size": 2048,
+          "cache_size": 0,
+          "socket_id": 0,
+          "size": 8191
+        }
+      ],
+
+      "rings": [
+        {
+          "socket_id": 0,
+          "single_consumer": false,
+          "single_producer": false,
+          "size": 256,
+          "name": "ring_1"
+        },
+        {
+          "socket_id": 0,
+          "single_consumer": true,
+          "single_producer": false,
+          "size": 256,
+          "name": "ring_2"
+        },
+        {
+          "socket_id": 0,
+          "single_consumer": false,
+          "single_producer": true,
+          "size": 256,
+          "name": "ring_3"
+        }
+      ]
+    }
+  }
+}
+

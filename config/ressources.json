@@ -27,7 +27,7 @@
         	{
         		"q-id": 0,
         		"nb-desc": 200,
-        		"pktpool-name":	"mbufpool_pool0"
+        		"pktpool-name":	"mbufpool_port0"
         	}],
 
         	"tx-queues": [

@@ -21,3 +21,4 @@ typedef struct
 }rings_t;
 
 rings_t rings;
+

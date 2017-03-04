@@ -9,7 +9,9 @@
 #include <rte_ether.h>
 #include <rte_ethdev.h>
 
+#include "process_manager.h"
 #include "main.h"
+
 #define NOF_DPDK_PARAM	6
 
 static struct rte_eth_conf port_conf = {
@@ -84,7 +86,7 @@ static int _init_dpdk(app_conf_t* conf)
 		break;
 
 		case 2:{
-			sprintf(buffer,"%x", conf->core_mask);
+			sprintf(buffer,"0x%"PRIx64"", conf->core_mask);
 			argv[i]= (char*)strdup(buffer);
 		}
 		break;
@@ -114,7 +116,7 @@ static int _init_dpdk(app_conf_t* conf)
 		return -1;
 	}
 
-	INFO_LOG(LOG_TRUE, LOG_NOP, "Succedded to init DPDK.");
+	INFO_LOG(LOG_TRUE, LOG_NOP, "Succedded to init DPDK. Core mask 0x%"PRIx64" ", conf->core_mask);
 	return 0;
 }
 
@@ -337,7 +339,7 @@ static int _start_eth_ports( void ){
 	int nb_ports, i, err;
 
 	nb_ports = rte_eth_dev_count ();
-	ERROR_LOG(nb_ports <= 0, return -1,"No eth. ports to start.");
+	ERROR_LOG(nb_ports <= 0, return 0,"No eth. ports to start.");
 
 	for(i=0; i<nb_ports; i++){
 		err = rte_eth_dev_start(i);
@@ -346,6 +348,7 @@ static int _start_eth_ports( void ){
 
 	return 0;
 }
+
 
 int ALLOCATOR_create_ressources(app_conf_t* conf){
 
@@ -372,8 +375,17 @@ int ALLOCATOR_create_ressources(app_conf_t* conf){
 	return err;
 }
 
+int ALLOCATOR_start_ressources(app_conf_t* conf){
 
-int ALLOCATOR_start_ressources( void ){
+	int ret;
 
-	return _start_eth_ports();
+	/* start eth ports */
+	ret = _start_eth_ports();
+	ERROR_LOG(ret, return -1, "Failed to start eth.");
+
+	/* start dpdk apps */
+	ret = PROCESS_MNGR_start(&conf->dpdk_app_list);
+	ERROR_LOG(ret, return -1, "Failed to start DPDK apps.");
+
+	return ret;
 }

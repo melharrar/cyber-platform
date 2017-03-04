@@ -1,6 +1,7 @@
 #pragma once
 
 #include "llist.h"
+#include "process_manager.h"
 
 typedef struct 
 {
@@ -58,15 +59,15 @@ typedef struct
 	eth_conf_t* eth_port;
 }eth_elem_t;
 
-
-typedef struct 
+typedef struct
 {
     char* app_name;
-    int core_mask;
+    uint64_t core_mask;
     int memory_socket;
     LL_T eth_port_list;
 	LL_T pkt_pool_list;
 	LL_T ring_list;
+	LL_T dpdk_app_list;
 } app_conf_t;
 
 app_conf_t CONF;

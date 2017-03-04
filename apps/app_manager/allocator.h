@@ -4,4 +4,4 @@
 
 
 int	ALLOCATOR_create_ressources	(app_conf_t* conf);
-int	ALLOCATOR_start_ressources	( void );
+int	ALLOCATOR_start_ressources	(app_conf_t* conf);

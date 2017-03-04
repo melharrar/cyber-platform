@@ -9,6 +9,7 @@
 #include <json-c/json.h>
 #include "app_conf.h"
 #include "main.h"
+#include "process_manager.h"
 
 // I used this file to prototype the json.
 //http://www.jsoneditoronline.org/?id=296cdd0556767e2b4d809115199e81dd
@@ -286,7 +287,6 @@ static int _parse_rings(json_object * jobj){
 static int _parse_json_app(json_object * jobj){
 
 	json_object * json_app_name;
-	json_object * json_core_mask;
 	json_object * json_memory_socket;
 	int ret;
 
@@ -298,6 +298,8 @@ static int _parse_json_app(json_object * jobj){
 
 	CONF.app_name = strdup(APP_NAME);
 
+#if 0 // The core mask will be computed by parser and not comes from config file.
+	json_object * json_core_mask;
 	ret = json_object_object_get_ex(jobj, "core-mask", &json_core_mask);
 	ERROR_LOG(!ret, return -1, "Failed to get core mask...");
 
@@ -305,7 +307,9 @@ static int _parse_json_app(json_object * jobj){
 			"Core-mask is not an int value.");
 
 	CONF.core_mask = json_object_get_int(json_core_mask);
-
+#else
+	CONF.core_mask = 1; // core 0 for management, set the first bit.
+#endif
 	ret = json_object_object_get_ex(jobj, "memory-socket", &json_memory_socket);
 	ERROR_LOG(!ret, return -1, "Failed to get memory socket...");
 
@@ -316,15 +320,108 @@ static int _parse_json_app(json_object * jobj){
 	return 0;
 }
 
-static int _json_parse(const char* buffer)
+
+static int _json_parse_ressources( json_object * json_ressources )
 {
 #define NB_RESSOURCES	3
+	const char * ressources[NB_RESSOURCES];
+	int ret;
+
+	//
+	// Get and parse packet pools
+	//
+	ressources[0] = "pktpools";
+	ressources[1] = "ethports";
+	ressources[2] = "rings";
+
+	for(int i=0; i<NB_RESSOURCES; i++){
+		json_object * json_tab;
+		ret = json_object_object_get_ex(json_ressources, ressources[i], &json_tab);
+		INFO_LOG(!ret, continue, "Didn't found %s ...", ressources[i]);
+
+		if(!strcmp(ressources[i],"pktpools") && ret){
+			ret = _parse_pktpools(json_tab);
+		}
+		else if(!strcmp(ressources[i],"ethports") && ret){
+			ret = _parse_ethports(json_tab);
+		}
+		else if(!strcmp(ressources[i],"rings") && ret){
+			ret = _parse_rings(json_tab);
+		}
+		ERROR_LOG(ret, return -1, "Failed to parse %s ...", ressources[i]);
+	}
+	return 0;
+}
+
+static int _json_parse_dpdk_apps( json_object * json_dpdk_apps){
+#define DPDK_APPS_ITEMS		3
+	const char * dpdk_apps_items[DPDK_APPS_ITEMS];
+	int ret;
+	int arraylen;
+	int i,j;
+	json_object * json_array;
+	enum json_type type;
+
+	//
+	// Get apps array
+	//
+	ret = json_object_object_get_ex(json_dpdk_apps, "dpdk-apps-array", &json_array);
+	ERROR_LOG(!ret, return -1, "Didn't found dpdk-apps-array item.");
+
+	type = json_object_get_type(json_array);
+	ERROR_LOG(type != json_type_array, return -1, "dpdk-apps: got an json value which is not an array.");
+	arraylen = json_object_array_length(json_array);
+
+	for(i=0; i<arraylen; i++)
+	{
+		json_object * json_item;
+		json_item = json_object_array_get_idx(json_array, i);
+		//
+		// Get and parse dpdk-apps
+		//
+		dpdk_apps_items[0] = "bin-path";
+		dpdk_apps_items[1] = "config-file-path";
+		dpdk_apps_items[2] = "core-id";
+
+		/* Parse here the attributes */
+		dpdk_app_elem_t* pElem = (dpdk_app_elem_t*)malloc(sizeof(dpdk_app_elem_t));
+		pElem->dpdk_app = (dpdk_app_conf_t*)malloc(sizeof(dpdk_app_conf_t));
+		LL_InitElement(&pElem->elem);
+
+		for(j=0; j<DPDK_APPS_ITEMS; j++){
+			json_object * json_obj;
+			ret = json_object_object_get_ex(json_item, dpdk_apps_items[j], &json_obj);
+			INFO_LOG(!ret, return -1, "Didn't found %s ...", dpdk_apps_items[j]);
+
+			if(!strcmp(dpdk_apps_items[j],"bin-path") && ret){
+				pElem->dpdk_app->bin_path = strdup((const char *)json_object_get_string(json_obj));
+			}
+			else if(!strcmp(dpdk_apps_items[j],"config-file-path") && ret){
+				pElem->dpdk_app->config_file_path = strdup((const char *)json_object_get_string(json_obj));
+			}
+			else if(!strcmp(dpdk_apps_items[j],"core-id") && ret){
+				pElem->dpdk_app->core_id = json_object_get_int(json_obj);
+				ERROR_LOG(!IS_JSON_INT(json_obj), return -1, "core-id is not an int value.");
+				uint64_t mask = 1;
+				mask <<= pElem->dpdk_app->core_id-1;
+				CONF.core_mask |= mask;
+			}
+			//ERROR_LOG(ret, return -1, "Failed to parse %s ...", dpdk_apps_items[j]);
+		}
+
+		/* and push the element */
+		LListAdd(&CONF.dpdk_app_list, &pElem->elem);
+	}
+	return 0;
+}
+
+static int _json_parse(const char* buffer)
+{
 	int ret;
 	json_object * jobj;
-	const char * ressources[NB_RESSOURCES];
 
 	jobj = json_tokener_parse(buffer);
-	ERROR_LOG((!jobj), goto error, "Failed to parse tokener ...");
+	ERROR_LOG((!jobj), goto error, "Failed to parse tokener:%s",json_util_get_last_err());
 
 	//
 	// First, get the app obj.
@@ -345,33 +442,22 @@ static int _json_parse(const char* buffer)
 	json_object * json_ressources;
 	ret = json_object_object_get_ex(json_app, "ressources", &json_ressources);
 	ERROR_LOG(!ret, goto error, "Failed to get ressources ...");
+	ret = _json_parse_ressources(json_ressources);
+	ERROR_LOG(ret, goto error, "Failed to parse ressources ...");
 
 	//
-	// Get and parse packet pools
+	// Get dpdk-apps
 	//
-	ressources[0] = "pktpools";
-	ressources[1] = "ethports";
-	ressources[2] = "rings";
+	json_object * json_dpdk_apps;
+	ret = json_object_object_get_ex(json_app, "dpdk-apps", &json_dpdk_apps);
+	ERROR_LOG(!ret, goto error, "Failed to get dpdk-apps object ...");
+	ret = _json_parse_dpdk_apps(json_dpdk_apps);
+	ERROR_LOG(ret, goto error, "Failed to parse dpdk-apps ...");
 
-	for(int i=0; i<NB_RESSOURCES; i++){
-		json_object * json_tab;
-		ret = json_object_object_get_ex(json_ressources, ressources[i], &json_tab);
-		ERROR_LOG(!ret, goto error, "Failed to get %s ...", ressources[i]);
-
-		if(!strcmp(ressources[i],"pktpools")){
-			ret = _parse_pktpools(json_tab);
-		}
-		else if(!strcmp(ressources[i],"ethports")){
-			ret = _parse_ethports(json_tab);
-		}
-		else if(!strcmp(ressources[i],"rings")){
-			ret = _parse_rings(json_tab);
-		}
-		ERROR_LOG(ret, goto error, "Failed to parse %s ...", ressources[i]);
-	}
-
+	//
+	// Free the main json object.
+	//
 	json_object_put(jobj);
-
 	return 0;
 
 error:
@@ -388,7 +474,6 @@ static int _parse_elements(const char * filename)
   int read;
   int ret;
   char* buffer;
-
 
   ret = 0;
   read = 0;

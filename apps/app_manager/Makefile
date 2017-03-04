@@ -20,6 +20,7 @@ APP = app_manager
 SRCS-y := main.c
 SRCS-y += app_conf.c
 SRCS-y += allocator.c
+SRCS-y += process_manager.c
 
 //CFLAGS += -O3
 CFLAGS += -O0

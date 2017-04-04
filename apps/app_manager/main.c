@@ -45,6 +45,14 @@ main(int argc, char **argv)
 
 	(void)argc;
 	(void)argv;
+	int rc;
+
+	rc = LOG_init("/var/log/");
+	if (rc){
+	    printf("LOG INIT FAILED !!!\n");
+	    return -1;
+	}
+
 
 	// Get the file name.
 	while( (c=getopt_long(argc, argv, "f:", long_options, NULL)) != -1 ){

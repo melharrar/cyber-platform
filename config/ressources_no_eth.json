@@ -45,13 +45,13 @@
     "dpdk-apps":{
 	"dpdk-apps-array": [
 	{
-	   "bin-path":"/home/melharrar/Projects/cyber-platform/apps/dispatcher/build/dispatcher",
-	   "config-file-path":"/home/melharrar/Projects/cyber-platform/config/dispatcher_core_2.json",
+	   "bin-path":"/home/melharrar/Projects/cyber-platform-test/apps/dispatcher/build/dispatcher",
+	   "config-file-path":"/home/melharrar/Projects/cyber-platform-test/config/dispatcher_core_2.json",
 	   "core-id": 2
 	},
 	{
-	   "bin-path": "/home/melharrar/Projects/cyber-platform/apps/dispatcher/build/dispatcher",
-	   "config-file-path": "/home/melharrar/Projects/cyber-platform/config/dispatcher_core_3.json",
+	   "bin-path":"/home/melharrar/Projects/cyber-platform-test/apps/dispatcher/build/dispatcher",
+	   "config-file-path":"/home/melharrar/Projects/cyber-platform-test/config/dispatcher_core_3.json",
 	   "core-id": 3
 	}
     ]},

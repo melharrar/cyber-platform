@@ -133,10 +133,11 @@ static int _start_dpdk_app(void* elem, __attribute__((unused)) void* cookie){
 }
 
 
+#if 0
 static int _check_process_up(dpdk_app_conf_t* dpdk_app_conf)
 {
+	(void)dpdk_app_conf;
 	// TODO: Need to implement another mechanism
-#if 0
 	int ps_ret = 0;
 	int ret = 0;
 	char ps[MAX_SYSTEM_COMMAND_LEN] = {0};
@@ -147,10 +148,9 @@ static int _check_process_up(dpdk_app_conf_t* dpdk_app_conf)
 	sprintf(ps,"ps -e --cols 256 | grep %u > /dev/null ", dpdk_app_conf->linux_pid);
 
 	ps_ret = system(ps);
-#endif
 	return 0;
 }
-
+#endif
 
 static int _check_process_output(dpdk_app_conf_t* dpdk_app_conf)
 {
@@ -180,7 +180,6 @@ static int _scan_dpdk_app(void* elem, __attribute__((unused)) void* cookie){
 
 	dpdk_app_elem_t* p_elem;
 	dpdk_app_conf_t* dpdk_app_conf;
-	int flags, fd, ret;
 
 	p_elem = (dpdk_app_elem_t*)elem;
 	dpdk_app_conf = (dpdk_app_conf_t*)p_elem->dpdk_app;
@@ -189,7 +188,7 @@ static int _scan_dpdk_app(void* elem, __attribute__((unused)) void* cookie){
 }
 
 
-int _loop_on_all_process( LL_T* p_app_list, action_t action)
+static int _loop_on_all_process( LL_T* p_app_list, action_t action)
 {
 	int nb_apps;
 
@@ -222,7 +221,7 @@ int PROCESS_MNGR_start( LL_T* p_app_list){
 	ret = _loop_on_all_process(p_app_list, START_ALL_APPS);
 	ERROR_LOG(!ret, return ret,"Failed to start all processes.");
 
-
+	return ret;
 }
 
 

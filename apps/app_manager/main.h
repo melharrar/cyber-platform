@@ -1,6 +1,6 @@
 #pragma once
 
-#include "log/log.h"
+#include "log.h"
 #include <rte_ring.h>
 
 

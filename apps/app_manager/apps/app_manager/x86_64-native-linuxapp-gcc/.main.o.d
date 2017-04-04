@@ -1,6 +1,7 @@
-dep_main.o = /home/melharrar/Projects/cyber-platform/apps/app_manager/main.c \
+dep_main.o = \
+ /home/melharrar/Projects/cyber-platform-test/apps/app_manager/main.c \
  /usr/include/stdc-predef.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_config.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_config.h \
  /usr/include/stdlib.h /usr/include/features.h \
  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -35,13 +36,14 @@ dep_main.o = /home/melharrar/Projects/cyber-platform/apps/app_manager/main.c \
  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h /usr/include/getopt.h \
- /home/melharrar/Projects/cyber-platform/apps/app_manager/app_conf.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/llist/llist.h \
- /home/melharrar/Projects/cyber-platform/apps/app_manager/allocator.h \
- /home/melharrar/Projects/cyber-platform/apps/app_manager/main.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/log/log.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_ring.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_common.h \
+ /home/melharrar/Projects/cyber-platform-test/apps/app_manager/app_conf.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//../common/llist/llist.h \
+ /home/melharrar/Projects/cyber-platform-test/apps/app_manager/process_manager.h \
+ /home/melharrar/Projects/cyber-platform-test/apps/app_manager/allocator.h \
+ /home/melharrar/Projects/cyber-platform-test/apps/app_manager/main.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//../common/log/log.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_ring.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_common.h \
  /usr/include/ctype.h \
  /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/syslimits.h \
@@ -53,17 +55,17 @@ dep_main.o = /home/melharrar/Projects/cyber-platform/apps/app_manager/main.c \
  /usr/lib/gcc/x86_64-linux-gnu/5/include/xmmintrin.h \
  /usr/lib/gcc/x86_64-linux-gnu/5/include/mmintrin.h \
  /usr/lib/gcc/x86_64-linux-gnu/5/include/mm_malloc.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_memory.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/exec-env/rte_dom0_common.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_lcore.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_per_lcore.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_memory.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/exec-env/rte_dom0_common.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_lcore.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_per_lcore.h \
  /usr/include/pthread.h /usr/include/sched.h \
  /usr/include/x86_64-linux-gnu/bits/sched.h \
  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_eal.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_launch.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_atomic.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/generic/rte_atomic.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_atomic_64.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_branch_prediction.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_memzone.h
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_eal.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_launch.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_atomic.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/generic/rte_atomic.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_atomic_64.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_branch_prediction.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_memzone.h

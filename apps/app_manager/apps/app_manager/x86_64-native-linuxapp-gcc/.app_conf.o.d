@@ -1,7 +1,7 @@
 dep_app_conf.o = \
- /home/melharrar/Projects/cyber-platform/apps/app_manager/app_conf.c \
+ /home/melharrar/Projects/cyber-platform-test/apps/app_manager/app_conf.c \
  /usr/include/stdc-predef.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_config.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_config.h \
  /usr/include/stdio.h /usr/include/features.h \
  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -32,27 +32,26 @@ dep_app_conf.o = \
  /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
  /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_cfgfile.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/json-c/json.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/json-c/debug.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/json-c/linkhash.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/json-c/json_object.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/json-c/json_inttypes.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/json-c/json_config.h \
- /usr/include/inttypes.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/json-c/arraylist.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/json-c/json_util.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/json-c/json_pointer.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/json-c/json_tokener.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/json-c/json_object_iterator.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/json-c/json_c_version.h \
- /home/melharrar/Projects/cyber-platform/apps/app_manager/app_conf.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/llist/llist.h \
- /home/melharrar/Projects/cyber-platform/apps/app_manager/main.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//../common/log/log.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_ring.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_cfgfile.h \
+ /usr/local/include/json-c/json.h /usr/local/include/json-c/debug.h \
+ /usr/local/include/json-c/linkhash.h \
+ /usr/local/include/json-c/json_object.h \
+ /usr/local/include/json-c/json_inttypes.h \
+ /usr/local/include/json-c/json_config.h /usr/include/inttypes.h \
+ /usr/local/include/json-c/arraylist.h \
+ /usr/local/include/json-c/json_util.h \
+ /usr/local/include/json-c/json_pointer.h \
+ /usr/local/include/json-c/json_tokener.h \
+ /usr/local/include/json-c/json_object_iterator.h \
+ /usr/local/include/json-c/json_c_version.h \
+ /home/melharrar/Projects/cyber-platform-test/apps/app_manager/app_conf.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//../common/llist/llist.h \
+ /home/melharrar/Projects/cyber-platform-test/apps/app_manager/process_manager.h \
+ /home/melharrar/Projects/cyber-platform-test/apps/app_manager/main.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//../common/log/log.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_ring.h \
  /usr/include/x86_64-linux-gnu/sys/queue.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_common.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_common.h \
  /usr/include/ctype.h \
  /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/syslimits.h \
@@ -64,17 +63,17 @@ dep_app_conf.o = \
  /usr/lib/gcc/x86_64-linux-gnu/5/include/xmmintrin.h \
  /usr/lib/gcc/x86_64-linux-gnu/5/include/mmintrin.h \
  /usr/lib/gcc/x86_64-linux-gnu/5/include/mm_malloc.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_memory.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/exec-env/rte_dom0_common.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_lcore.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_per_lcore.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_memory.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/exec-env/rte_dom0_common.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_lcore.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_per_lcore.h \
  /usr/include/pthread.h /usr/include/sched.h \
  /usr/include/x86_64-linux-gnu/bits/sched.h \
  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_eal.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_launch.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_atomic.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/generic/rte_atomic.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_atomic_64.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_branch_prediction.h \
- /home/melharrar/Projects/cyber-platform/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_memzone.h
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_eal.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_launch.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_atomic.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/generic/rte_atomic.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_atomic_64.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_branch_prediction.h \
+ /home/melharrar/Projects/cyber-platform-test/dpdk-stable-16.07.2//x86_64-native-linuxapp-gcc/include/rte_memzone.h

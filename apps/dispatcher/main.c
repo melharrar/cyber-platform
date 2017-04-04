@@ -18,7 +18,7 @@
 #include <sys/queue.h>
 #include <unistd.h>
 
-#include "log/log.h"
+#include "log.h"
 #include <rte_ring.h>
 
 static void print_usage( void ){
@@ -53,6 +53,10 @@ main(int argc, char **argv)
 		print_usage();
 	}
 
+	//Only for debug
+	while(1){
+		sleep(1);
+	}
   return 0;
 }
 

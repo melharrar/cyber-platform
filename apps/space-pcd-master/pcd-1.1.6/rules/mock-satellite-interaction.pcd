@@ -1,0 +1,62 @@
+############################################################################
+# mock-satellite-interaction.pcd: Top level PCD script mock satellite 
+# interaction
+#
+############################################################################
+RULE = MOCK_SAT_COMMANDER
+START_COND = NONE
+COMMAND = /usr/bin/space-commander
+SCHED = NICE,0
+DAEMON = NO
+END_COND = NONE
+END_COND_TIMEOUT = -1
+FAILURE_ACTION = RESTART
+ACTIVE = YES
+
+#################################################################
+RULE = MOCK_SAT_NETMAN
+START_COND = NONE
+COMMAND = /usr/bin/mock_sat
+SCHED = NICE,0
+DAEMON = NO
+END_COND = NONE
+END_COND_TIMEOUT = -1
+FAILURE_ACTION = RESTART
+ACTIVE = YES
+
+#################################################################
+RULE = MOCK_LOG_ROTATION
+START_COND = NONE
+COMMAND = /usr/bin/cs1_log_rotation.sh
+SCHED = NICE,0
+DAEMON = NO
+END_COND = NONE
+END_COND_TIMEOUT = -1
+FAILURE_ACTION = RESTART
+ACTIVE = YES
+
+############################################################################
+# ground-station.pcd: TODO wish we could load multiple rule files at once
+#
+############################################################################
+RULE = GND_COMMANDER
+START_COND = NONE
+COMMAND = /usr/bin/ground-commander
+SCHED = NICE,0
+DAEMON = NO
+END_COND = NONE
+END_COND_TIMEOUT = -1
+FAILURE_ACTION = RESTART
+ACTIVE = YES
+
+#################################################################
+RULE = COMPONENT_NETMAN
+START_COND = NONE
+COMMAND = /usr/bin/gnd
+SCHED = NICE,0
+DAEMON = NO
+END_COND = NONE
+END_COND_TIMEOUT = -1
+FAILURE_ACTION = RESTART
+ACTIVE = YES
+

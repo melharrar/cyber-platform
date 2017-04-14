@@ -1,0 +1,25 @@
+############################################################################
+# ground-station.pcd: Top level PCD script for ground-station
+# 
+############################################################################
+RULE = GND_COMMANDER
+START_COND = NONE
+COMMAND = /usr/bin/ground-commander
+SCHED = NICE,0
+DAEMON = NO
+END_COND = NONE
+END_COND_TIMEOUT = -1
+FAILURE_ACTION = RESTART
+ACTIVE = YES
+
+#################################################################
+RULE = COMPONENT_NETMAN
+START_COND = NONE
+COMMAND = /usr/bin/gnd
+SCHED = NICE,0
+DAEMON = NO
+END_COND = NONE
+END_COND_TIMEOUT = -1
+FAILURE_ACTION = RESTART
+ACTIVE = YES
+

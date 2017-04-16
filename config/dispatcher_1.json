@@ -1,0 +1,62 @@
+{
+  "app": {
+    "name": "dispatcher",
+    "core-id": 1,
+    
+    "interfaces": {
+    
+    "ingress": [
+    	{
+    	  "help":"each element in ingress if is an if. desc. It could be from NIC or from RING",
+    	  "if-name":"if1",
+          "is-eth": true,
+          "port-id": 0,
+          "queue-id": 0,
+          "ring-name":""
+        },
+    	{
+    	  "if-name":"if2",
+          "is-eth": true,
+          "port-id": 1,
+          "queue-id": 1,
+          "ring-name":""
+        }
+      ],
+      
+      
+    "egress": [
+    	{
+    	  "help":"each element in egress-traffic is an if. desc. It could be from NIC or from RING",
+    	  "if-name":"if3",
+          "is-eth": true,
+          "port-id": 0,
+          "queue-id": 0,
+          "ring-name":""
+        }
+      ],
+      
+      
+    "to-upper-app": [
+    	{
+    	  "if-name":"if3",
+          "is-eth": true,
+          "port-id": 0,
+          "queue-id": 0,
+          "ring-name":""
+     	}
+      ],
+      
+      
+    "from-upper-app": [
+     	{
+     	  "if-name":"if3",
+     	  "is-eth": true,
+     	  "port-id": 0,
+     	  "queue-id": 0,
+     	  "ring-name":""
+     	}
+     ]
+      
+    }
+  }
+}

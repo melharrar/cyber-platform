@@ -35,7 +35,7 @@ all: $(TARGET) install
 
 $(TARGET): $(obj-y)
 	@echo "  LINK	 	$@"
-ifdef PCD_USE_STATIC_LIBS
+ifdef CONFIG_PCD_USE_STATIC_LIBS
 	@$(AR) rcs $@.a $(obj-y)
 else
 	@$(CC) $(CFLAGS) $(obj-y) -o $@.so $(LDFLAGS) -Wl,-Map,$@.map
@@ -54,7 +54,7 @@ endif
 
 install_internal:
 	@mkdir -p $(PCD_BIN)/target/lib
-ifdef USE_STATIC_LIBS
+ifdef CONFIG_PCD_USE_STATIC_LIBS
 	@install $(TARGET).a $(PCD_BIN)/target/lib
 else
 	@install $(TARGET).so $(PCD_BIN)/target/lib

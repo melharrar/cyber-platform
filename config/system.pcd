@@ -1,0 +1,26 @@
+#################################################################
+# system.pcd: Example PCD script for system services startup
+#
+#################################################################
+RULE = SYSTEM_APP_MANAGER
+START_COND = NONE
+#START_COND = RULE_COMPLETED,SYSTEM_TIMER,SYSTEM_INIT,SYSTEM_LOGGER
+COMMAND = sudo /home/melharrar/Projects/cyber-platform-4-april/bins/app_manager --config-file /home/melharrar/Projects/cyber-platform-4-april/config/ressources_no_eth.json
+#SCHED = FIFO,99
+DAEMON = YES
+END_COND = PROCESS_READY
+END_COND_TIMEOUT = -1
+FAILURE_ACTION = RESTART
+ACTIVE = YES
+#################################################################
+RULE = SYSTEM_DISPATCHER_1
+START_COND = NONE
+#START_COND = RULE_COMPLETED,SYSTEM_TIMER,SYSTEM_INIT,SYSTEM_LOGGER
+COMMAND = sudo /home/melharrar/Projects/cyber-platform-4-april/bins/dispatcher --config-file /home/melharrar/Projects/cyber-platform-4-april/config/dispatcher_1.json
+#SCHED = FIFO,99
+DAEMON = YES
+END_COND = PROCESS_READY
+END_COND_TIMEOUT = -1
+FAILURE_ACTION = RESTART
+ACTIVE = YES
+

@@ -27,7 +27,7 @@ CFLAGS += -MMD -Wall -fomit-frame-pointer -g
 CFLAGS += -I$(PCD_ROOT)/pcd/include -I$(PCD_ROOT)/pcd/src/pcdapi/include -I$(PCD_ROOT)/ipc/include
 
 # Libraries
-LDFLAGS += -L$(PCD_ROOT)/ipc/src -lipc -L$(PCD_ROOT)/pcd/src/pcdapi/src -lpcd -lrt -lc
+LDFLAGS += -L$(PCD_ROOT)/ipc/src -lipc -L$(PCD_ROOT)/pcd/src/pcdapi/src -lpcd -lrt -lc -lpthread
 
 obj-y := $(patsubst %.c,%.o,$(shell ls *.c 2> /dev/null))
 TARGET = pcd

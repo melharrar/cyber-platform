@@ -192,6 +192,8 @@ static void PCD_dump_maps_file( pid_t pid )
         /* Delete the file */
         unlink( mapsFile );
     }
+
+    (void)i;
 }
 
 static void PCD_dump_fault_info( exception_t *exception )

@@ -1,7 +1,8 @@
 #pragma once
 
 #include "llist.h"
-#include "process_manager.h"
+
+#define MAX_CORE_SLAVE 64
 
 typedef struct 
 {
@@ -64,10 +65,12 @@ typedef struct
     char* app_name;
     uint64_t core_mask;
     int memory_socket;
+    int slave_core_ids[MAX_CORE_SLAVE];
+    int slave_core_count;
     LL_T eth_port_list;
 	LL_T pkt_pool_list;
 	LL_T ring_list;
-	LL_T dpdk_app_list;
+	//LL_T dpdk_app_list;
 } app_conf_t;
 
 app_conf_t CONF;

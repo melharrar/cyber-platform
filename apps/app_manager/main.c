@@ -23,6 +23,7 @@
 #include "allocator.h"
 #include "main.h"
 
+
 static struct option long_options[] =
 {
     {"config-file",	required_argument, NULL, 'f'},
@@ -47,13 +48,6 @@ main(int argc, char **argv)
 	(void)argv;
 	int rc;
 
-	rc = LOG_init("/var/log/");
-	if (rc){
-	    printf("LOG INIT FAILED !!!\n");
-	    return -1;
-	}
-
-
 	// Get the file name.
 	while( (c=getopt_long(argc, argv, "f:", long_options, NULL)) != -1 ){
 		switch(c)
@@ -73,6 +67,12 @@ main(int argc, char **argv)
 		print_usage((const char *)argv[0]);
 	}
 
+	rc = LOG_init("/var/log/");
+	if (rc){
+	    printf("LOG INIT FAILED !!!\n");
+	    return -1;
+	}
+
 	err = APP_CONF_parse_file( filename );
 	ERROR_LOG(err, exit(-1), "Failed to parse config file.");
 
@@ -84,7 +84,7 @@ main(int argc, char **argv)
 
 	while(1){
 		sleep(1);
-		//PROCESS_MNGR_scan(&CONF.dpdk_app_list);
+		//INFO_LOG(LOG_TRUE, LOG_NOP, "In APP MANAGER !!!");
 	}
 
 	return 0;

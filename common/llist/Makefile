@@ -44,7 +44,6 @@ LIB = libllist.a
 # all source are stored in SRCS-y
 SRCS-y := llist.c
 
-CFLAGS += -O0 -g
 CFLAGS += $(WERROR_FLAGS)
 
 include $(RTE_SDK)/mk/rte.extlib.mk

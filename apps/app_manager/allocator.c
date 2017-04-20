@@ -9,7 +9,6 @@
 #include <rte_ether.h>
 #include <rte_ethdev.h>
 
-#include "process_manager.h"
 #include "main.h"
 
 #define NOF_DPDK_PARAM	6
@@ -339,13 +338,12 @@ static int _start_eth_ports( void ){
 	int nb_ports, i, err;
 
 	nb_ports = rte_eth_dev_count ();
-	ERROR_LOG(nb_ports <= 0, return 0,"No eth. ports to start.");
+	INFO_LOG(nb_ports <= 0, return 0,"No eth. ports to start.");
 
 	for(i=0; i<nb_ports; i++){
 		err = rte_eth_dev_start(i);
 		ERROR_LOG(err < 0, return -1, "Cannot start port %d error(%d)", i, err);
 	}
-
 	return 0;
 }
 
@@ -375,17 +373,19 @@ int ALLOCATOR_create_ressources(app_conf_t* conf){
 	return err;
 }
 
-int ALLOCATOR_start_ressources(app_conf_t* conf){
+int	ALLOCATOR_start_ressources(app_conf_t* p_conf){
 
 	int ret;
+	(void)p_conf;
 
 	/* start eth ports */
 	ret = _start_eth_ports();
 	ERROR_LOG(ret, return -1, "Failed to start eth.");
 
+#if 0
 	/* start dpdk apps */
-	ret = PROCESS_MNGR_start(&conf->dpdk_app_list);
+	ret = PROCESS_MNGR_start(p_conf);
 	ERROR_LOG(ret, return -1, "Failed to start DPDK apps.");
-
+#endif
 	return ret;
 }

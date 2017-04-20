@@ -13,11 +13,13 @@ RTE_TARGET ?= x86_64-native-linuxapp-gcc
 
 include $(RTE_SDK)/mk/rte.vars.mk
 
-DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./common/llist
-DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./common/keep_alive
-DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./common/log
-DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./apps/app_manager
-DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./apps/dispatcher
+DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += common
+DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += apps
+#DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./common/llist
+#DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./common/keep_alive
+#DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./common/log
+#DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./apps/app_manager
+#DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += ./apps/dispatcher
 #DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += tcpClient
 #DIRS-$(CONFIG_RTE_EXEC_ENV_LINUXAPP) += tcpServer
 

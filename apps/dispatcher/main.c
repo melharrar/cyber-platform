@@ -17,12 +17,22 @@
 #include <errno.h>
 #include <sys/queue.h>
 #include <unistd.h>
+#include <getopt.h>
 
-#include "log.h"
-#include <rte_ring.h>
+#include "main.h"
+#include "app_conf.h"
+#include "allocator.h"
 
-static void print_usage( void ){
-	printf("Usage: app_manager -f < filename in json format >\r\n");
+static struct option long_options[] =
+{
+    {"config-file",	required_argument, NULL, 'f'},
+    {NULL, 0, NULL, 0}
+};
+
+
+static void print_usage( const char * argv ){
+    printf("Usage: %s [OPTIONS]\n", argv);
+    printf("  --config-file configuration file in json format.\n");
 	exit(1);
 }
 
@@ -34,9 +44,10 @@ main(int argc, char **argv)
 
 	(void)argc;
 	(void)argv;
+	int err;
 
 	// Get the file name.
-	while( (c=getopt(argc, argv, "f:")) != -1 )
+	while( (c=getopt_long(argc, argv, "f:", long_options, NULL)) != -1 ){
 		switch(c)
 		{
 
@@ -48,15 +59,31 @@ main(int argc, char **argv)
 			INFO_LOG(LOG_TRUE, LOG_NOP, "Unknow option %d", c);
 			break;
 		}
+	}
 
 	if(filename == NULL){
-		print_usage();
+		print_usage((const char *)argv[0]);
 	}
+
+	err = LOG_init("/var/log/");
+	if (err){
+	    printf("LOG INIT FAILED !!!\n");
+	    return -1;
+	}
+
+
+	err = APP_CONF_parse_file( filename );
+	ERROR_LOG(err, exit(-1), "Failed to parse config file.");
+
+	err = ALLOCATOR_create_ressources(&CONF);
+	ERROR_LOG(err, exit(-1), "Failed to allocate ressources.");
 
 	//Only for debug
 	while(1){
 		sleep(1);
+		//INFO_LOG(LOG_TRUE, LOG_NOP, "IN DISPACHER !!!");
 	}
-  return 0;
+
+	return 0;
 }
 

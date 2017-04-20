@@ -269,6 +269,7 @@ static procObj_t *PCD_process_spawn(procObj_t *proc)
     procObj_t *next;
     char params[ CONFIG_PCD_MAX_PARAM_SIZE ] = { 0};
     rule_t *rule;
+    int z;
 
     /* Check validity of parameters */
     if ( !proc )
@@ -521,7 +522,8 @@ static procObj_t *PCD_process_spawn(procObj_t *proc)
          * non-root user */
         if ( rule->uid )
         {
-            setreuid( rule->uid, rule->uid );
+            z = setreuid( rule->uid, rule->uid );
+            (void)z;
         }
 
         /* Execute the file */
@@ -1016,6 +1018,8 @@ void PCD_process_reboot( void )
 		
         /* Display reboot message */
         i = write( STDERR_FILENO, msg, sizeof(msg) );
+
+        (void)i;
 
         /* Exit abnormally */
         exit( 1 );

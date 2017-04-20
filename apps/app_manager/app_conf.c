@@ -9,7 +9,6 @@
 #include <json-c/json.h>
 #include "app_conf.h"
 #include "main.h"
-#include "process_manager.h"
 
 // I used this file to prototype the json.
 //http://www.jsoneditoronline.org/?id=296cdd0556767e2b4d809115199e81dd
@@ -353,6 +352,7 @@ static int _json_parse_ressources( json_object * json_ressources )
 	return 0;
 }
 
+#if 0
 static int _json_parse_dpdk_apps( json_object * json_dpdk_apps){
 #define DPDK_APPS_ITEMS		3
 	const char * dpdk_apps_items[DPDK_APPS_ITEMS];
@@ -405,6 +405,11 @@ static int _json_parse_dpdk_apps( json_object * json_dpdk_apps){
 				uint64_t mask = 1;
 				mask <<= pElem->dpdk_app->core_id-1;
 				CONF.core_mask |= mask;
+				if(CONF.slave_core_count < MAX_CORE_SLAVE){
+					CONF.slave_core_ids[CONF.slave_core_count++] = pElem->dpdk_app->core_id;
+				}else{
+					ERROR_LOG(LOG_TRUE, LOG_NOP,"Max core-id was reached in the configuration.");
+				}
 			}
 			//ERROR_LOG(ret, return -1, "Failed to parse %s ...", dpdk_apps_items[j]);
 		}
@@ -414,6 +419,7 @@ static int _json_parse_dpdk_apps( json_object * json_dpdk_apps){
 	}
 	return 0;
 }
+#endif
 
 static int _json_parse(const char* buffer)
 {
@@ -445,6 +451,7 @@ static int _json_parse(const char* buffer)
 	ret = _json_parse_ressources(json_ressources);
 	ERROR_LOG(ret, goto error, "Failed to parse ressources ...");
 
+#if 0
 	//
 	// Get dpdk-apps
 	//
@@ -453,7 +460,7 @@ static int _json_parse(const char* buffer)
 	ERROR_LOG(!ret, goto error, "Failed to get dpdk-apps object ...");
 	ret = _json_parse_dpdk_apps(json_dpdk_apps);
 	ERROR_LOG(ret, goto error, "Failed to parse dpdk-apps ...");
-
+#endif
 	//
 	// Free the main json object.
 	//

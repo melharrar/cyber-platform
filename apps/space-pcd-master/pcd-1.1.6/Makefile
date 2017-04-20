@@ -137,7 +137,8 @@ check_config:
 	  exit 1;\
 	fi
 
-pcd: pcd_title check_config check_permissions
+#pcd: pcd_title check_config check_permissions
+pcd: pcd_title check_config
 	@echo "Building PCD..."
 	@$(MAKE) -C ./ipc/src
 	@$(MAKE) -C ./pcd/src/pcdapi/src

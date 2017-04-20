@@ -9,7 +9,7 @@
 
 static FILE * f_log_info = 0;
 static FILE * f_log_error = 0;
-static int local_level = 0;
+static int local_level = LOG_MAX_LEVEL;
 
 int LOG_init(const char *log_path){
 

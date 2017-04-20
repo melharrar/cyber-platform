@@ -20,20 +20,20 @@ APP = app_manager
 SRCS-y := main.c
 SRCS-y += app_conf.c
 SRCS-y += allocator.c
-SRCS-y += process_manager.c
+#SRCS-y += process_manager.c
 
-//CFLAGS += -O3
-CFLAGS += -O0
-CFLAGS += -g
+#CFLAGS += -O3
+#CFLAGS += -O0
+#CFLAGS += -g
 CFLAGS += $(WERROR_FLAGS)
 CFLAGS += -I$(RTE_SDK)/../common/
 CFLAGS += -I$(RTE_SDK)/../common/llist/
 CFLAGS += -I$(RTE_SDK)/../common/json-c/include/
 CFLAGS += -I$(RTE_SDK)/../common/log/
 
-LDLIBS += -L$(RTE_SDK)/../common/llist/build/lib/
+LDLIBS += -L$(RTE_SDK)/../common/llist/common/llist/$(RTE_TARGET)/lib/
 LDLIBS += -lllist
-LDLIBS += -L$(RTE_SDK)/../common/log/build/lib/
+LDLIBS += -L$(RTE_SDK)/../common/log/common/log/$(RTE_TARGET)/lib/
 LDLIBS += -llog
 LDLIBS += -L$(RTE_SDK)/../common/json-c/lib/
 LDLIBS += -ljson-c

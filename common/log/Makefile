@@ -44,7 +44,7 @@ LIB = liblog.a
 # all source are stored in SRCS-y
 SRCS-y := log.c
 
-CFLAGS += -O0 -g
+#CFLAGS += -O0 -g
 CFLAGS += -I$(RTE_SDK)/../common/log
 
 include $(RTE_SDK)/mk/rte.extlib.mk

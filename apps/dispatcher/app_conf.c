@@ -31,7 +31,8 @@ void _init_conf( app_conf_t* p_conf){
 	LL_Init(&p_conf->lower_app_if_list);
 }
 
-static int _parse_json_app(json_object * jobj){
+static
+int _parse_json_app(json_object * jobj){
 
 	json_object * json_app_name;
 	json_object * json_core_id;
@@ -55,7 +56,7 @@ static int _parse_json_app(json_object * jobj){
 
 static
 int _json_parse_interface(json_object* json_array, LL_T* list){
-#define IF_ITEMS		5
+#define IF_ITEMS		6
 	const char * if_items[IF_ITEMS];
 	enum json_type type;
 	int ret;
@@ -74,11 +75,12 @@ int _json_parse_interface(json_object* json_array, LL_T* list){
 		//
 		// Get and parse dpdk-apps
 		//
-		if_items[0] = "if-name";
+		if_items[0] = "used";
 		if_items[1] = "is-eth";
-		if_items[2] = "port-id";
-		if_items[3] = "queue-id";
-		if_items[4] = "ring-name";
+		if_items[2] = "if-name";
+		if_items[3] = "port-id";
+		if_items[4] = "queue-id";
+		if_items[5] = "ring-name";
 
 		/* Parse here the attributes */
 		if_elem_t* pElem = (if_elem_t*)malloc(sizeof(if_elem_t));
@@ -95,7 +97,10 @@ int _json_parse_interface(json_object* json_array, LL_T* list){
 				pElem->p_interface->name = strdup((const char *)json_object_get_string(json_obj));
 			}
 			else if(!strcmp(if_items[j],"is-eth") && ret){
-				pElem->p_interface->is_eth = json_object_get_int(json_obj);
+				pElem->p_interface->is_eth = json_object_get_boolean(json_obj);
+			}
+			else if(!strcmp(if_items[j],"used") && ret){
+				pElem->p_interface->used = json_object_get_boolean(json_obj);
 			}
 			else if(!strcmp(if_items[j],"port-id") && ret){
 				pElem->p_interface->port_id = json_object_get_int(json_obj);
@@ -107,7 +112,7 @@ int _json_parse_interface(json_object* json_array, LL_T* list){
 				pElem->p_interface->ring_name = strdup((const char *)json_object_get_string(json_obj));
 			}
 			else {
-				INFO_LOG(ret, LOG_NOP, "Failed to parse %s ...", if_items[j]);
+				//INFO_LOG(ret, LOG_NOP, "Failed to parse %s ...", if_items[j]);
 			}
 		}
 
@@ -156,7 +161,33 @@ int _json_parse(const char* buffer)
 	ERROR_LOG(ret, goto error, "Failed to parse ingress if ...");
 
 	INFO_LOG(LOG_TRUE, LOG_NOP, "%d ingress interfaces were found.", CONF.ingress_if_list.count);
+	//
+	// Get egress-if
+	//
+	ret = json_object_object_get_ex(json_interfaces, "egress", &json_if);
+	ERROR_LOG(!ret, goto error, "Failed to get egress interfaces ...");
+	ret = _json_parse_interface(json_if, &CONF.egress_if_list);
+	ERROR_LOG(ret, goto error, "Failed to parse egress if ...");
 
+	INFO_LOG(LOG_TRUE, LOG_NOP, "%d egress interfaces were found.", CONF.egress_if_list.count);
+	//
+	// Get to-upper-app
+	//
+	ret = json_object_object_get_ex(json_interfaces, "to-upper-app", &json_if);
+	ERROR_LOG(!ret, goto error, "Failed to get to-upper-app interfaces ...");
+	ret = _json_parse_interface(json_if, &CONF.upper_app_if_list);
+	ERROR_LOG(ret, goto error, "Failed to parse upper-app if ...");
+
+	INFO_LOG(LOG_TRUE, LOG_NOP, "%d to-upper-app interfaces were found.", CONF.upper_app_if_list.count);
+	//
+	// Get from-upper-app
+	//
+	ret = json_object_object_get_ex(json_interfaces, "from-upper-app", &json_if);
+	ERROR_LOG(!ret, goto error, "Failed to get from-upper-app interfaces ...");
+	ret = _json_parse_interface(json_if, &CONF.lower_app_if_list);
+	ERROR_LOG(ret, goto error, "Failed to parse upper-app if ...");
+
+	INFO_LOG(LOG_TRUE, LOG_NOP, "%d to-upper-app interfaces were found.", CONF.lower_app_if_list.count);
 	//
 	// Free the main json object.
 	//

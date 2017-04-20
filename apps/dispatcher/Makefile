@@ -18,23 +18,24 @@ APP = dispatcher
 
 # all source are stored in SRCS-y
 SRCS-y := main.c
-#SRCS-y += app_conf.c
+SRCS-y += app_conf.c
+SRCS-y += allocator.c
 
 
 #CFLAGS += -O3
-CFLAGS += -O0
-CFLAGS += -g
+#CFLAGS += -O0
+#CFLAGS += -g
 CFLAGS += $(WERROR_FLAGS)
 CFLAGS += -I$(RTE_SDK)/../common/
 CFLAGS += -I$(RTE_SDK)/../common/llist/
 CFLAGS += -I$(RTE_SDK)/../common/json-c/
 CFLAGS += -I$(RTE_SDK)/../common/log/
 
-LDLIBS += -L$(RTE_SDK)/../common/llist/build/lib/
+LDLIBS += -L$(RTE_SDK)/../common/llist/common/llist/$(RTE_TARGET)/lib/
 LDLIBS += -lllist
-LDLIBS += -L$(RTE_SDK)/../common/json-c/.libs/
+LDLIBS += -L$(RTE_SDK)/../common/json-c/libs/
 LDLIBS += -ljson-c
-LDLIBS += -L$(RTE_SDK)/../common/log/build/lib/
+LDLIBS += -L$(RTE_SDK)/../common/log/common/log/$(RTE_TARGET)/lib/
 LDLIBS += -llog
 
 include $(RTE_SDK)/mk/rte.extapp.mk

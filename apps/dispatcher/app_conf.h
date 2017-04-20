@@ -11,6 +11,7 @@
 typedef struct
 {
 	const char* name;
+	int used;
 	int is_eth;
 	int port_id;
 	int q_id;

@@ -11,7 +11,7 @@
 #include <errno.h>
 #include <rte_cfgfile.h>
 
-#include <json-c/json.h>
+#include "json.h"
 #include "app_conf.h"
 #include "main.h"
 

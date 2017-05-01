@@ -1,38 +1,42 @@
 {
   "app": {
+  	"help": "dispatch-by can be 2-tuples, 5-tuples, or client-ip",
     "name": "dispatcher",
     "core-id": 1,
     "memory-socket": 1,
+    "dispatch-by":"5-tuples",
     "interfaces": {
     
-    "ingress": [
+    "help":"each element in interface could be attached to a NIC or to a RING.
+    The interface name must be unique.
+    If is-eth is true so the ring-name is not relevant and can be null.
+    Else, if is-eth is false, so port-id and queue-id are not relevant.
+    Bypass interface must be the interface name to transmit the non relevant packets.",
+    
+    "rx-interfaces": [
     	{
-    	  "help":"each element in ingress-traffic if is an if. desc. 
-    	  It could be attached to NIC or to RING.
-    	  The name must be unique. 
-    	  If is-eth is true so the ring-name is not relevant and can be null.
-    	  Else, if is-eth is false, so port-id and queue-id are not relevant.",
-    	  "if-name":"if1",
+    	  "if-name":"if1-rx",
     	  "used":true,
           "is-eth": true,
           "port-id": 0,
           "queue-id": 0,
-          "ring-name":""
+          "ring-name":"",
+          "bypass-if-name":"if1-tx"
         },
     	{
-    	  "if-name":"if2",
+    	  "if-name":"if2-rx",
     	  "used":true,
           "is-eth": true,
           "port-id": 1,
           "queue-id": 1,
-          "ring-name":""
+          "ring-name":"",
+          "bypass-if":"if1-tx"
         }
       ],
       
-      
-    "egress": [
+    "tx-interfaces": [
     	{
-    	  "if-name":"if3",
+    	  "if-name":"if1-tx",
     	  "used":true,
           "is-eth": true,
           "port-id": 0,
@@ -42,29 +46,16 @@
       ],
       
       
-    "to-upper-app": [
+    "app-interfaces": [
     	{
     	  "if-name":"if3",
     	  "used":true,
-          "is-eth": true,
+          "is-eth": false,
           "port-id": 0,
           "queue-id": 0,
-          "ring-name":""
+          "ring-name":"ring_1"
      	}
-      ],
-      
-      
-    "from-upper-app": [
-     	{
-     	  "if-name":"if3",
-     	  "used":true,
-     	  "is-eth": true,
-     	  "port-id": 0,
-     	  "queue-id": 0,
-     	  "ring-name":""
-     	}
-     ]
-
+      ]
     }
   }
 }

@@ -25,10 +25,9 @@ void _init_conf( app_conf_t* p_conf){
 
 	p_conf->app_name = 0;
 	p_conf->core_id = 0;
-	LL_Init(&p_conf->ingress_if_list);
-	LL_Init(&p_conf->egress_if_list);
-	LL_Init(&p_conf->upper_app_if_list);
-	LL_Init(&p_conf->lower_app_if_list);
+	LL_Init(&p_conf->rx_interfaces_list);
+	LL_Init(&p_conf->tx_interfaces_list);
+	LL_Init(&p_conf->app_interfaces_list);
 }
 
 static
@@ -56,7 +55,7 @@ int _parse_json_app(json_object * jobj){
 
 static
 int _json_parse_interface(json_object* json_array, LL_T* list){
-#define IF_ITEMS		6
+#define IF_ITEMS		7
 	const char * if_items[IF_ITEMS];
 	enum json_type type;
 	int ret;
@@ -81,6 +80,7 @@ int _json_parse_interface(json_object* json_array, LL_T* list){
 		if_items[3] = "port-id";
 		if_items[4] = "queue-id";
 		if_items[5] = "ring-name";
+		if_items[6] = "bypass-if-name";
 
 		/* Parse here the attributes */
 		if_elem_t* pElem = (if_elem_t*)malloc(sizeof(if_elem_t));
@@ -91,7 +91,7 @@ int _json_parse_interface(json_object* json_array, LL_T* list){
 		for(j=0; j<IF_ITEMS; j++){
 			json_object * json_obj;
 			ret = json_object_object_get_ex(json_item, if_items[j], &json_obj);
-			INFO_LOG(!ret, LOG_NOP, "Didn't found %s ...", if_items[j]);
+			INFO_LOG(!ret, continue, "no %s item in the current block. It may be OK.", if_items[j]);
 
 			if(!strcmp(if_items[j],"if-name") && ret){
 				pElem->p_interface->name = strdup((const char *)json_object_get_string(json_obj));
@@ -110,6 +110,9 @@ int _json_parse_interface(json_object* json_array, LL_T* list){
 			}
 			else if(!strcmp(if_items[j],"ring-name") && ret){
 				pElem->p_interface->ring_name = strdup((const char *)json_object_get_string(json_obj));
+			}
+			else if(!strcmp(if_items[j],"bypass-if-name") && ret){
+				pElem->p_interface->bypass_if_name = strdup((const char *)json_object_get_string(json_obj));
 			}
 			else {
 				//INFO_LOG(ret, LOG_NOP, "Failed to parse %s ...", if_items[j]);
@@ -153,41 +156,32 @@ int _json_parse(const char* buffer)
 	ERROR_LOG(!ret, goto error, "Failed to get interfaces ...");
 
 	//
-	// Get ingress-if
+	// Get rx-interfaces list
 	//
-	ret = json_object_object_get_ex(json_interfaces, "ingress", &json_if);
-	ERROR_LOG(!ret, goto error, "Failed to get ingress interfaces ...");
-	ret = _json_parse_interface(json_if, &CONF.ingress_if_list);
-	ERROR_LOG(ret, goto error, "Failed to parse ingress if ...");
+	ret = json_object_object_get_ex(json_interfaces, "rx-interfaces", &json_if);
+	ERROR_LOG(!ret, goto error, "Failed to get rx interfaces ...");
+	ret = _json_parse_interface(json_if, &CONF.rx_interfaces_list);
+	ERROR_LOG(ret, goto error, "Failed to parse rx interface list");
+	INFO_LOG(LOG_TRUE, LOG_NOP, "%d rx interfaces were found.", CONF.rx_interfaces_list.count);
 
-	INFO_LOG(LOG_TRUE, LOG_NOP, "%d ingress interfaces were found.", CONF.ingress_if_list.count);
 	//
-	// Get egress-if
+	// Get tx interfaces list
 	//
-	ret = json_object_object_get_ex(json_interfaces, "egress", &json_if);
-	ERROR_LOG(!ret, goto error, "Failed to get egress interfaces ...");
-	ret = _json_parse_interface(json_if, &CONF.egress_if_list);
-	ERROR_LOG(ret, goto error, "Failed to parse egress if ...");
+	ret = json_object_object_get_ex(json_interfaces, "tx-interfaces", &json_if);
+	ERROR_LOG(!ret, goto error, "Failed to get tx interfaces ...");
+	ret = _json_parse_interface(json_if, &CONF.tx_interfaces_list);
+	ERROR_LOG(ret, goto error, "Failed to parse egress if");
+	INFO_LOG(LOG_TRUE, LOG_NOP, "%d tx interfaces were found.", CONF.tx_interfaces_list.count);
 
-	INFO_LOG(LOG_TRUE, LOG_NOP, "%d egress interfaces were found.", CONF.egress_if_list.count);
 	//
-	// Get to-upper-app
+	// Get app interfaces list.
 	//
-	ret = json_object_object_get_ex(json_interfaces, "to-upper-app", &json_if);
-	ERROR_LOG(!ret, goto error, "Failed to get to-upper-app interfaces ...");
-	ret = _json_parse_interface(json_if, &CONF.upper_app_if_list);
-	ERROR_LOG(ret, goto error, "Failed to parse upper-app if ...");
+	ret = json_object_object_get_ex(json_interfaces, "app-interfaces", &json_if);
+	ERROR_LOG(!ret, goto error, "Failed to get app interfaces ...");
+	ret = _json_parse_interface(json_if, &CONF.app_interfaces_list);
+	ERROR_LOG(ret, goto error, "Failed to parse app interfaces list.");
+	INFO_LOG(LOG_TRUE, LOG_NOP, "%d app. interfaces were found.", CONF.app_interfaces_list.count);
 
-	INFO_LOG(LOG_TRUE, LOG_NOP, "%d to-upper-app interfaces were found.", CONF.upper_app_if_list.count);
-	//
-	// Get from-upper-app
-	//
-	ret = json_object_object_get_ex(json_interfaces, "from-upper-app", &json_if);
-	ERROR_LOG(!ret, goto error, "Failed to get from-upper-app interfaces ...");
-	ret = _json_parse_interface(json_if, &CONF.lower_app_if_list);
-	ERROR_LOG(ret, goto error, "Failed to parse upper-app if ...");
-
-	INFO_LOG(LOG_TRUE, LOG_NOP, "%d to-upper-app interfaces were found.", CONF.lower_app_if_list.count);
 	//
 	// Free the main json object.
 	//

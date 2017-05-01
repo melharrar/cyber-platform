@@ -388,6 +388,17 @@ igbuio_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
 		}
 		/* fall back to INTX */
 	case RTE_INTR_MODE_LEGACY:
+	/* Mikael: This is a patch to avoid file descriptor errors 
+	 * in VMWare.
+	 */
+//#ifdef RUNNING_ON_VM
+#if 1
+		dev_dbg(&dev->dev, "using INTX");
+		udev->info.irq_flags = IRQF_SHARED;
+		udev->info.irq = dev->irq;
+		udev->mode = RTE_INTR_MODE_LEGACY;
+		break;
+#else
 		if (pci_intx_mask_supported(dev)) {
 			dev_dbg(&dev->dev, "using INTX");
 			udev->info.irq_flags = IRQF_SHARED;
@@ -396,6 +407,7 @@ igbuio_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
 			break;
 		}
 		dev_notice(&dev->dev, "PCI INTX mask not supported\n");
+#endif
 		/* fall back to no IRQ */
 	case RTE_INTR_MODE_NONE:
 		udev->mode = RTE_INTR_MODE_NONE;

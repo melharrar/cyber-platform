@@ -20,7 +20,7 @@ APP = dispatcher
 SRCS-y := main.c
 SRCS-y += app_conf.c
 SRCS-y += allocator.c
-
+SRCS-y += pkt_router.c
 
 #CFLAGS += -O3
 #CFLAGS += -O0

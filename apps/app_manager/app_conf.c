@@ -297,13 +297,12 @@ static int _parse_json_app(json_object * jobj){
 
 	CONF.app_name = strdup(APP_NAME);
 
-#if 0 // The core mask will be computed by parser and not comes from config file.
+#if 1 // The core mask will be computed by parser and not comes from config file.
 	json_object * json_core_mask;
 	ret = json_object_object_get_ex(jobj, "core-mask", &json_core_mask);
 	ERROR_LOG(!ret, return -1, "Failed to get core mask...");
 
-	ERROR_LOG(!IS_JSON_INT(json_core_mask), return -1,
-			"Core-mask is not an int value.");
+	ERROR_LOG(!IS_JSON_INT(json_core_mask), return -1, "Core-mask is not an int value.");
 
 	CONF.core_mask = json_object_get_int(json_core_mask);
 #else
@@ -528,5 +527,4 @@ int APP_CONF_parse_file( const char * filename ){
 
 	return 0;
 }
-
 

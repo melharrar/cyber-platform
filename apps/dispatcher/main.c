@@ -22,6 +22,7 @@
 #include "main.h"
 #include "app_conf.h"
 #include "allocator.h"
+#include "pkt_router.h"
 
 static struct option long_options[] =
 {
@@ -78,11 +79,8 @@ main(int argc, char **argv)
 	err = ALLOCATOR_create_ressources(&CONF);
 	ERROR_LOG(err, exit(-1), "Failed to allocate ressources.");
 
-	//Only for debug
-	while(1){
-		sleep(1);
-		//INFO_LOG(LOG_TRUE, LOG_NOP, "IN DISPACHER !!!");
-	}
+	err = PKT_ROUTER_main_loop(&dispatcher_ctx);
+	ERROR_LOG(err, exit(-1), "Failed to run main loop.");
 
 	return 0;
 }

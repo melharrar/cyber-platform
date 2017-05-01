@@ -37,48 +37,86 @@ int _store_if_in_ctx(void* elem, void* cookie){
 	if(!p_if_conf->used)
 		return 0;
 
-	count = p_interface->interface_cnt;
-	p_interface->interface[count].name = p_if_conf->name;
+	count = p_interface->count;
+	p_interface->ifs[count].name = p_if_conf->name;
+	p_interface->ifs[count].is_eth = p_if_conf->is_eth;
 
 	if(p_if_conf->is_eth){
 		//Store eth
-		p_interface->interface[count].port_id = p_if_conf->port_id;
-		p_interface->interface[count].q_id = p_if_conf->q_id;
+		p_interface->ifs[count].port_id = p_if_conf->port_id;
+		p_interface->ifs[count].q_id = p_if_conf->q_id;
 	}
 	else{
 		// Loockup ring
-		p_interface->interface[count].p_ring = rte_ring_lookup (p_if_conf->ring_name);
-		ERROR_LOG(!p_interface->interface[count].p_ring, return -1,"Failed to found ring %s.", p_if_conf->ring_name);
+		p_interface->ifs[count].p_ring = rte_ring_lookup (p_if_conf->ring_name);
+		ERROR_LOG(!p_interface->ifs[count].p_ring, return -1,"Failed to found ring %s.", p_if_conf->ring_name);
 		INFO_LOG(LOG_TRUE, LOG_NOP, "Succedded to attach ring %s.",p_if_conf->ring_name);
 	}
 
-	p_interface->interface_cnt++;
+	if(p_if_conf->bypass_if_name){
+		p_interface->ifs[count].bypass_name = strdup(p_if_conf->bypass_if_name);
+	}
+	p_interface->count++;
 
 	return 0;
 }
 
 static
-int _create_app_ctx(app_conf_t* p_conf){
+int _init_app_ctx(app_conf_t* p_conf, dispatcher_ctx_t* p_dispatcher_ctx){
 
 	LL_ELEMENT_T * p_elem;
 
 	// init the context
-	memset(&dispatcher_ctx,0,sizeof(dispatcher_ctx_t));
+	memset(p_dispatcher_ctx,0,sizeof(dispatcher_ctx_t));
 	dispatcher_ctx.app_name = p_conf->app_name;
 	dispatcher_ctx.core_id = p_conf->core_id;
 
-	p_elem = LL_ForEach(&p_conf->ingress_if_list, _store_if_in_ctx, &dispatcher_ctx.ingress_if);
-	ERROR_LOG(p_elem, return -1,"Failed to create ctx for ingress interface.");
+	INFO_LOG(LOG_TRUE, LOG_NOP, "Init rx interfaces.");
+	p_elem = LL_ForEach(&p_conf->rx_interfaces_list, _store_if_in_ctx, &p_dispatcher_ctx->rx_interfaces);
+	ERROR_LOG(p_elem, return -1,"Failed to create rx interface.");
 
-	p_elem = LL_ForEach(&p_conf->egress_if_list, _store_if_in_ctx, &dispatcher_ctx.egress_if);
-	ERROR_LOG(p_elem, return -1,"Failed to create ctx for egress interface.");
+	INFO_LOG(LOG_TRUE, LOG_NOP, "Init tx interfaces.");
+	p_elem = LL_ForEach(&p_conf->tx_interfaces_list, _store_if_in_ctx, &p_dispatcher_ctx->tx_interfaces);
+	ERROR_LOG(p_elem, return -1,"Failed to create tx interface.");
 
-	p_elem = LL_ForEach(&p_conf->upper_app_if_list, _store_if_in_ctx, &dispatcher_ctx.upper_if);
-	ERROR_LOG(p_elem, return -1,"Failed to create ctx for upper interface.");
+	INFO_LOG(LOG_TRUE, LOG_NOP, "Init app rings.");
+	p_elem = LL_ForEach(&p_conf->app_interfaces_list, _store_if_in_ctx, &p_dispatcher_ctx->app_interfaces);
+	ERROR_LOG(p_elem, return -1,"Failed to create app interface.");
 
-	p_elem = LL_ForEach(&p_conf->lower_app_if_list, _store_if_in_ctx, &dispatcher_ctx.lower_if);
-	ERROR_LOG(p_elem, return -1,"Failed to create ctx for lower interface.");
+	return 0;
+}
 
+static
+struct if_t* _get_interface_by_name(interface_t* interfaces, const char* name){
+
+	int i;
+
+	for(i=0; i<interfaces->count; i++){
+
+		if(!strcmp(interfaces->ifs[i].name,name))
+			return &interfaces->ifs[i];
+	}
+
+	return 0;
+}
+
+static
+int _assign_bypass_interfaces(dispatcher_ctx_t* p_dispatcher_ctx){
+
+	int i;
+
+	for(i=0; i<p_dispatcher_ctx->rx_interfaces.count; i++){
+
+		const char* name = p_dispatcher_ctx->rx_interfaces.ifs[i].bypass_name;
+
+		if(name){
+			p_dispatcher_ctx->rx_interfaces.ifs[i].bypass_if =
+					_get_interface_by_name(&p_dispatcher_ctx->tx_interfaces, name);
+			ERROR_LOG(!p_dispatcher_ctx->rx_interfaces.ifs[i].bypass_if,
+					return -1, "Failed to get bypass interface for interface %s.",
+							p_dispatcher_ctx->rx_interfaces.ifs[i].name);
+		}
+	}
 	return 0;
 }
 
@@ -183,8 +221,11 @@ int	ALLOCATOR_create_ressources	(app_conf_t* p_conf){
 	err = _init_dpdk(p_conf);
 	ERROR_LOG(err, return -1, "Failed to init dpdk.");
 
-	err = _create_app_ctx(p_conf);
+	err = _init_app_ctx(p_conf, &dispatcher_ctx);
 	ERROR_LOG(err, return -1, "Failed to create app ctx.");
+
+	err = _assign_bypass_interfaces(&dispatcher_ctx);
+	ERROR_LOG(err, return -1, "Failed to assign bypass interface.");
 
 	return 0;
 }

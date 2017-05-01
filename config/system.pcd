@@ -5,7 +5,7 @@
 RULE = SYSTEM_APPMANAGER
 START_COND = NONE
 #START_COND = RULE_COMPLETED,SYSTEM_TIMER,SYSTEM_INIT,SYSTEM_LOGGER
-COMMAND = sudo /home/melharrar/Projects/cyber-platform-4-april/bins/app_manager --config-file /home/melharrar/Projects/cyber-platform-4-april/config/ressources_no_eth.json
+COMMAND = sudo /home/melharrar/Projects/cyber-platform-april-24/bins/app_manager --config-file /home/melharrar/Projects/cyber-platform-april-24/config/ressources.json
 #SCHED = FIFO,99
 DAEMON = YES
 #END_COND = PROCESS_READY
@@ -17,7 +17,7 @@ ACTIVE = YES
 RULE = SYSTEM_DISPATCHER_1
 START_COND = RULE_COMPLETED SYSTEM_APPMANAGER
 #START_COND = NONE
-COMMAND = sudo /home/melharrar/Projects/cyber-platform-4-april/bins/dispatcher --config-file /home/melharrar/Projects/cyber-platform-4-april/config/dispatcher_1.json
+COMMAND = sudo /home/melharrar/Projects/cyber-platform-april-24/bins/dispatcher --config-file /home/melharrar/Projects/cyber-platform-april-24/config/dispatcher_1.json
 #SCHED = FIFO,99
 DAEMON = YES
 END_COND = PROCESS_READY

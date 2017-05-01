@@ -11,6 +11,7 @@
 typedef struct
 {
 	const char* name;
+	const char* bypass_if_name;
 	int used;
 	int is_eth;
 	int port_id;
@@ -28,10 +29,9 @@ typedef struct
 {
 	char* app_name;
     uint64_t core_id;
-    LL_T ingress_if_list;
-    LL_T egress_if_list;
-    LL_T upper_app_if_list;
-    LL_T lower_app_if_list;
+    LL_T rx_interfaces_list;
+    LL_T tx_interfaces_list;
+    LL_T app_interfaces_list;
 } app_conf_t;
 
 app_conf_t CONF;

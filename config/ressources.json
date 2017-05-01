@@ -26,15 +26,15 @@
         	"rx-queues": [
         	{
         		"q-id": 0,
-        		"nb-desc": 200,
+        		"nb-desc": 256,
         		"pktpool-name":	"mbufpool_port0"
         	}],
 
         	"tx-queues": [
         	{
-			"socket-id": 0,
+        		"socket-id": 0,
         		"q-id": 0,
-        		"nb-desc": 200
+        		"nb-desc": 256
           	}]
         }
       ],

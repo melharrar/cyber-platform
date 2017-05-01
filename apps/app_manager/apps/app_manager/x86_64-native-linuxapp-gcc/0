@@ -7,6 +7,7 @@
 #define __UINT_LEAST8_TYPE__ unsigned char
 #define __SIZEOF_FLOAT80__ 16
 #define __INTMAX_C(c) c ## L
+#define __tune_haswell__ 1
 #define __CHAR_BIT__ 8
 #define __UINT8_MAX__ 0xff
 #define __WINT_MAX__ 0xffffffffU
@@ -76,12 +77,10 @@
 #define __LDBL_HAS_QUIET_NAN__ 1
 #define __GNUC__ 5
 #define __MMX__ 1
-#define __XSAVES__ 1
 #define __FLT_HAS_DENORM__ 1
 #define __SIZEOF_LONG_DOUBLE__ 16
 #define __XSAVEOPT__ 1
 #define __BIGGEST_ALIGNMENT__ 32
-#define __PRFCHW__ 1
 #define __DBL_MAX__ ((double)1.79769313486231570815e+308L)
 #define __INT_FAST32_MAX__ 0x7fffffffffffffffL
 #define __DBL_HAS_INFINITY__ 1
@@ -114,7 +113,6 @@
 #define __PCLMUL__ 1
 #define __LP64__ 1
 #define __DECIMAL_BID_FORMAT__ 1
-#define __CLFLUSHOPT__ 1
 #define __DEC128_MIN__ 1E-6143DL
 #define __REGISTER_PREFIX__ 
 #define __UINT16_MAX__ 0xffff
@@ -164,6 +162,7 @@
 #define __FLT_HAS_INFINITY__ 1
 #define __UINT_FAST16_TYPE__ long unsigned int
 #define __DEC64_MAX__ 9.999999999999999E384DD
+#define __tune_core_avx2__ 1
 #define __CHAR16_TYPE__ short unsigned int
 #define __PRAGMA_REDEFINE_EXTNAME 1
 #define __INT_LEAST16_MAX__ 0x7fff
@@ -238,13 +237,11 @@
 #define __FLT_MAX__ 3.40282346638528859812e+38F
 #define __FP_FAST_FMA 1
 #define __INT32_TYPE__ int
-#define __XSAVEC__ 1
 #define __SIZEOF_DOUBLE__ 8
 #define __FLT_MIN_10_EXP__ (-37)
 #define __INTMAX_TYPE__ long int
 #define __DEC128_MAX_EXP__ 6145
 #define __FSGSBASE__ 1
-#define __RDSEED__ 1
 #define __ATOMIC_CONSUME 1
 #define __GNUC_MINOR__ 4
 #define __UINTMAX_MAX__ 0xffffffffffffffffUL
@@ -259,7 +256,6 @@
 #define __haswell__ 1
 #define __ATOMIC_SEQ_CST 5
 #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_16 1
-#define __ADX__ 1
 #define __UINT32_TYPE__ unsigned int
 #define __UINTPTR_TYPE__ long unsigned int
 #define __DEC64_SUBNORMAL_MIN__ 0.000000000000001E-383DD
